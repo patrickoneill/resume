@@ -37,8 +37,8 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
-    $("#gh-user-data").html("");
-    $("#gh-repo-data").html("");
+    $("#gh-user-data").html("");// will clear out all the info from other searches
+    $("#gh-repo-data").html("");// will clear out all the info from other searches
 
     var username = $("#gh-username").val();
     if (!username) {
@@ -66,9 +66,10 @@ function fetchGitHubInformation(event) {
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
             }
+            // checks the status 403 (frobidden)
             else if (errorResponse.status === 403) {
-                var resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset')*1000);
-                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`);
+                var resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset')*1000);// time till request
+                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`);// local time till able to search again
             }
             else {
                 console.log(errorResponse);
@@ -78,4 +79,4 @@ function fetchGitHubInformation(event) {
         });
 }
 
-$(document).ready(fetchGitHubInformation);
+$(document).ready(fetchGitHubInformation);//will display the info from the start
